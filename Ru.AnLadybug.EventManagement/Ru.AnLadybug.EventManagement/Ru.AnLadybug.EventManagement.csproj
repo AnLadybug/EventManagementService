@@ -14,7 +14,6 @@
     <Folder Include="Controllers\" />
     <Folder Include="Interfaces\" />
     <Folder Include="Services\" />
-    <Folder Include="ModelDto\" />
   </ItemGroup>
 
 </Project>
