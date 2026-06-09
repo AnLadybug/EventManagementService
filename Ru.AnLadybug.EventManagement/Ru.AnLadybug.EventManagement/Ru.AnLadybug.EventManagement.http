@@ -1,6 +1,0 @@
-@Ru.AnLadybug.EventManagement_HostAddress = http://localhost:5201
-
-GET {{Ru.AnLadybug.EventManagement_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
