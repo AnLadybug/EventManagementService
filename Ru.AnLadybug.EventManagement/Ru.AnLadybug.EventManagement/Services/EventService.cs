@@ -1,0 +1,50 @@
+﻿using Ru.AnLadybug.EventManagement.Interfaces;
+using Ru.AnLadybug.EventManagement.Model;
+using Ru.AnLadybug.EventManagement.Model.Create;
+using Ru.AnLadybug.EventManagement.Model.Update;
+
+
+namespace Ru.AnLadybug.EventManagement.Services;
+
+public class EventService : IEventService
+{
+    private List<Event> _events = [];
+
+    public IReadOnlyCollection<Event> GetAll()
+    {
+        return _events;
+    }
+
+    public Event? Get(Guid id)
+    {
+        return _events.Find(ev => ev.Id == id);
+
+    }
+
+    public Event Create(CreateEvent createEvent)
+    {
+        var ev = new Event(
+            createEvent.Title,
+            createEvent.StartAt,
+            createEvent.EndAt,
+            createEvent.Description);
+        _events.Add(ev);
+        return ev;            
+    }
+
+    public Event Update(UpdateEvent updateEvent)
+    {
+        var ev = Get(updateEvent.Id) ?? throw new KeyNotFoundException(updateEvent.Id.ToString());
+        ev.Update(
+            updateEvent.Title,
+            updateEvent.StartAt,
+            updateEvent.EndAt,
+            updateEvent.Description);
+        return ev;
+    }
+
+    public void Delete(Guid id)
+    {
+        _events = [.. _events.Where(ev => ev.Id != id)];
+    }
+}
