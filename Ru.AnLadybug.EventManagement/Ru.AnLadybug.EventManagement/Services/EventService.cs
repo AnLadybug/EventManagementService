@@ -43,8 +43,10 @@ public class EventService : IEventService
         return ev;
     }
 
-    public void Delete(Guid id)
+    public bool Delete(Guid id)
     {
+        var inputCount = _events.Count;
         _events = [.. _events.Where(ev => ev.Id != id)];
+        return _events.Count < inputCount;
     }
 }

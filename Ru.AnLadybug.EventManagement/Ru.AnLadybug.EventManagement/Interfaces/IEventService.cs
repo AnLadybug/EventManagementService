@@ -10,5 +10,5 @@ public interface IEventService
     Event? Get(Guid id);
     Event Create(CreateEvent createEvent);
     Event Update(UpdateEvent updateEvent);
-    void Delete(Guid id);
+    bool Delete(Guid id);
 }
