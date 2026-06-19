@@ -28,15 +28,21 @@ namespace Ru.AnLadybug.EventManagement.Controllers
         [HttpPost]
         public ActionResult<EventDto> Create([FromBody]CreateEventDto createEventDto)
         {
-            var result = _eventService.Create(CreateEventDtoConvertor.ToCreateEvent(createEventDto));
-            return EventConvertor.ToDto(result);
+            var createEvent = CreateEventDtoConvertor.ToCreateEvent(createEventDto);
+            var newEvent = _eventService.Create(createEvent);
+            var eventDto = EventConvertor.ToDto(newEvent);
+            return Created($"Событие с идентификатором {newEvent.Id} создано", eventDto);
         }
 
         [HttpPut]
         public ActionResult<EventDto> Update(UpdateEventDto updateEventDto)
         {
-            var result = _eventService.Update(UpdateEventDtoConvertor.ToUpdateEvent(updateEventDto));
-            return EventConvertor.ToDto(result);
+            var updateEvent = UpdateEventDtoConvertor.ToUpdateEvent(updateEventDto);
+            var renewEvent = _eventService.Update(updateEvent);
+            if (renewEvent == null) 
+                return NotFound($"Событие с идентификатором {updateEventDto.Id} не найдено");
+
+            return EventConvertor.ToDto(renewEvent);
         }
 
         [HttpDelete("id")]

@@ -9,6 +9,6 @@ public interface IEventService
     IReadOnlyCollection<Event> GetAll();
     Event? Get(Guid id);
     Event Create(CreateEvent createEvent);
-    Event Update(UpdateEvent updateEvent);
+    Event? Update(UpdateEvent updateEvent);
     bool Delete(Guid id);
 }

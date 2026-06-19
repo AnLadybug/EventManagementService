@@ -18,7 +18,6 @@ public class EventService : IEventService
     public Event? Get(Guid id)
     {
         return _events.Find(ev => ev.Id == id);
-
     }
 
     public Event Create(CreateEvent createEvent)
@@ -32,15 +31,17 @@ public class EventService : IEventService
         return ev;            
     }
 
-    public Event Update(UpdateEvent updateEvent)
+    public Event? Update(UpdateEvent updateEvent)
     {
-        var ev = Get(updateEvent.Id) ?? throw new KeyNotFoundException(updateEvent.Id.ToString());
-        ev.Update(
+        var findEvent = Get(updateEvent.Id);
+        if (findEvent == null) return null;
+
+        findEvent.Update(
             updateEvent.Title,
             updateEvent.StartAt,
             updateEvent.EndAt,
             updateEvent.Description);
-        return ev;
+        return findEvent;
     }
 
     public bool Delete(Guid id)
