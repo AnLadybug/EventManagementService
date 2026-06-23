@@ -23,8 +23,8 @@ public class UpdateEventDto : IValidatableObject
         if (EndAt <= StartAt)
         {
             yield return new ValidationResult(
-                "Дата и время окончания события должны быть строго позже начала события.",
-                [nameof(EndAt)]
+                "Дата и время окончания события должны быть строго позже начала события",
+                [nameof(StartAt), nameof(EndAt)]
             );
         }
     }
