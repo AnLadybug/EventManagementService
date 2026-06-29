@@ -50,10 +50,10 @@ namespace Ru.AnLadybug.EventManagement.Controllers
         /// <param name="createEventDto">DTO данные для создания нового события.</param>
         /// <returns>DTO созданного события и HTTP-заголовок Location со ссылкой на него.</returns>
         /// <response code="201">Событие успешно создано.</response>
-        /// <response code="404">DTO данные для создания события не прошли валидацию.</response>
+        /// <response code="400">DTO данные для создания события не прошли валидацию.</response>
         [HttpPost]
         [ProducesResponseType(typeof(EventDto), StatusCodes.Status201Created)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         public ActionResult<EventDto> Create([FromBody] CreateEventDto createEventDto)
         {
             var createEvent = CreateEventDtoConvertor.ToCreateEvent(createEventDto);
@@ -68,12 +68,12 @@ namespace Ru.AnLadybug.EventManagement.Controllers
         /// <param name="updateEventDto">DTO данные для обновления события.</param>
         /// <returns>DTO обновленного события.</returns>
         /// <response code="200">Событие успешно обновлено.</response>
-        /// <response code="404">Событие для обновления не найдено.</response>
-        /// <response code="404">DTO данные для обновления события не прошли валидацию.</response>
+        /// <response code="404">Событие для обновления не найдено либо</response>
+        /// <response code="400">DTO данные для обновления события не прошли валидацию.</response>
         [HttpPut]
         [ProducesResponseType(typeof(EventDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         public ActionResult<EventDto> Update([FromBody] UpdateEventDto updateEventDto)
         {
             var updateEvent = UpdateEventDtoConvertor.ToUpdateEvent(updateEventDto);
