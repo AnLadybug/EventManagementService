@@ -65,21 +65,22 @@ namespace Ru.AnLadybug.EventManagement.Controllers
         /// <summary>
         /// Обновить данные существующего события.
         /// </summary>
+        /// <param name="id">Уникальный идентификатор события (Guid).</param>
         /// <param name="updateEventDto">DTO данные для обновления события.</param>
         /// <returns>DTO обновленного события.</returns>
         /// <response code="200">Событие успешно обновлено.</response>
         /// <response code="404">Событие для обновления не найдено либо</response>
         /// <response code="400">DTO данные для обновления события не прошли валидацию.</response>
-        [HttpPut]
+        [HttpPut("{id}")]
         [ProducesResponseType(typeof(EventDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
-        public ActionResult<EventDto> Update([FromBody] UpdateEventDto updateEventDto)
+        public ActionResult<EventDto> Update(Guid id, [FromBody] UpdateEventDto updateEventDto)
         {
             var updateEvent = UpdateEventDtoConvertor.ToUpdateEvent(updateEventDto);
-            var renewEvent = _eventService.Update(updateEvent);
+            var renewEvent = _eventService.Update(id, updateEvent);
             if (renewEvent == null) 
-                return NotFound($"Событие с идентификатором {updateEventDto.Id} не найдено");
+                return NotFound($"Событие с идентификатором {id} не найдено");
 
             return EventConvertor.ToDto(renewEvent);
         }

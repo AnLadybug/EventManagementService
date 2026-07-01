@@ -37,21 +37,29 @@
 * *Валидация:* `EndAt` должно быть строго позже `StartAt`.
 
 #### 2. UpdateEventDto (Обновление события)
-* `Id` (Guid, обязательное): Идентификатор обновляемого события.
-* Включает все поля из `CreateEventDto` как новые значения для замены.
+* `Title` (string, обязательное): Новое название события.
+* `Description` (string, опционально): Новое описание.
+* `StartAt` (DateTime, обязательное): Дата начала (UTC).
+* `EndAt` (DateTime, обязательное): Дата окончания (UTC).
+* *Валидация:* `EndAt` должно быть строго позже `StartAt`.
 
 #### 3. EventDto (Информация о событии)
-* Возвращается сервером при успешных запросах. Содержит сгенерированный `Id` и полные данные события.
+* `Id` (Guid, обязательное): Сгенерированный идентификатор события.
+* `Title` (string, обязательное): Новое название события.
+* `Description` (string, опционально): Новое описание.
+* `StartAt` (DateTime, обязательное): Дата начала (UTC).
+* `EndAt` (DateTime, обязательное): Дата окончания (UTC).
+* *Валидация:* `EndAt` должно быть строго позже `StartAt`.
 
 ### Эндпоинты
 
-| Метод | Путь | Описание | Тело запроса | Ответ (Успех) |
+| Метод | Путь | Описание | Тело запроса | Возможные ответы (Код / Тип) |
 | :--- | :--- | :--- | :--- | :--- |
-| **GET** | `/` | Получить все события | *Нет* | `200 OK` (`IEnumerable<EventDto>`) |
-| **POST** | `/` | Создать событие | `CreateEventDto` | `201 Created` (`EventDto`) |
-| **PUT** | `/{id}` | Обновить событие | `UpdateEventDto` | `200 OK` (`EventDto`) |
-| **GET** | `/{id}` | Получить по ID | *Нет* | `200 OK` (`EventDto`) |
-| **DELETE**| `/{id}` | Удалить событие | *Нет* | `204 NoContent` |
+| **GET** | `/api/events` | Получить все события | *Нет* | `200 OK` (`IReadOnlyCollection<EventDto>`) |
+| **GET** | `/api/events/{id:Guid}` | Получить событие по ID | *Нет* | `200 OK` (`EventDto`) <br> `404 NotFound` (`string`)|
+| **POST** | `/api/events/` | Создать событие | `CreateEventDto` | `201 Created` (`EventDto`) <br> `400 BadRequest` (`ValidationProblemDetails`)|
+| **PUT** | `/api/events/{id:Guid}` | Обновить событие | `UpdateEventDto` | `200 OK` (`EventDto`) <br> `404 NotFound` (`string`) <br> `400 BadRequest` (`ValidationProblemDetails`)|
+| **DELETE**| `/api/events/{id:Guid}` | Удалить событие | *Нет* | `204 NoContent` <br> `404 NotFound` (`string`)|
 
 ---
 

@@ -9,7 +9,6 @@ public static class UpdateEventDtoConvertor
     {
         return new UpdateEvent
         {
-            Id = input.Id,
             Title = input.Title,
             Description = input.Description,
             StartAt = input.StartAt,

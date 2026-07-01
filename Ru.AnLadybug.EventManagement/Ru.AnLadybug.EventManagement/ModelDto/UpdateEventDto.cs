@@ -8,13 +8,6 @@ namespace Ru.AnLadybug.EventManagement.ModelDto;
 public class UpdateEventDto : IValidatableObject
 {
     /// <summary>
-    /// Уникальный идентификатор события.
-    /// </summary>
-    /// <example>d3b07384-d113-4956-d5c1-e8d1a1215496</example>
-    [Required(ErrorMessage = "Идентификатор события обязателен для заполнения")]
-    public Guid Id { get; set; }
-
-    /// <summary>
     /// Новое название события.
     /// </summary>
     /// <example>Обновленная стратегическая сессия</example>

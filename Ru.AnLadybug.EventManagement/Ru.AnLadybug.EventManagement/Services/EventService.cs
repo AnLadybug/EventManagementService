@@ -31,9 +31,9 @@ public class EventService : IEventService
         return ev;            
     }
 
-    public Event? Update(UpdateEvent updateEvent)
+    public Event? Update(Guid id, UpdateEvent updateEvent)
     {
-        var findEvent = Get(updateEvent.Id);
+        var findEvent = Get(id);
         if (findEvent == null) return null;
 
         findEvent.Update(
