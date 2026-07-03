@@ -11,8 +11,8 @@ public static class CreateEventDtoConvertor
         {
             Title = input.Title,
             Description = input.Description,
-            StartAt = input.StartAt,
-            EndAt = input.EndAt,
+            StartAt = input.StartAt!.Value,
+            EndAt = input.EndAt!.Value,
         };
     }
 }

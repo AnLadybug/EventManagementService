@@ -25,14 +25,14 @@ public class CreateEventDto : IValidatableObject
     /// </summary>
     /// <example>2026-08-15T09:00:00Z</example>
     [Required(ErrorMessage = "Дата и время начала события обязательны для заполнения")]
-    public DateTime StartAt { get; set; }
+    public DateTime? StartAt { get; set; }
 
     /// <summary>
     /// Запланированная дата и время окончания события (UTC).
     /// </summary>
     /// <example>2026-08-15T12:00:00Z</example>
     [Required(ErrorMessage = "Дата и время окончания события обязательны для заполнения")]
-    public DateTime EndAt { get; set; }
+    public DateTime? EndAt { get; set; }
 
     /// <summary>
     /// Проверить временные рамки при создании события
@@ -41,7 +41,7 @@ public class CreateEventDto : IValidatableObject
     /// <returns>Результат проверки корректности дат.</returns>
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
-        if (EndAt <= StartAt)
+        if (StartAt.HasValue && EndAt.HasValue && EndAt <= StartAt)
         {
             yield return new ValidationResult(
                 "Дата и время окончания события должны быть строго позже начала события",

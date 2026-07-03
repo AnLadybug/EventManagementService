@@ -69,7 +69,7 @@ namespace Ru.AnLadybug.EventManagement.Controllers
         /// <param name="updateEventDto">DTO данные для обновления события.</param>
         /// <returns>DTO обновленного события.</returns>
         /// <response code="200">Событие успешно обновлено.</response>
-        /// <response code="404">Событие для обновления не найдено либо</response>
+        /// <response code="404">Событие для обновления не найдено.</response>
         /// <response code="400">DTO данные для обновления события не прошли валидацию.</response>
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(EventDto), StatusCodes.Status200OK)]

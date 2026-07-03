@@ -13,7 +13,7 @@ public class Event
         if (string.IsNullOrWhiteSpace(title))
             throw new ArgumentException("Название события обязательно", nameof(title));
         if (endAt <= startAt)
-            throw new ArgumentException("Начало события не может быть позже его окончания");
+            throw new ArgumentException("Дата и время окончания события должны быть строго позже начала события");
 
         Id = Guid.NewGuid();
         Title = title;
@@ -27,7 +27,7 @@ public class Event
         if (string.IsNullOrWhiteSpace(title))
             throw new ArgumentException("Название события обязательно", nameof(title));
         if (endAt <= startAt)
-            throw new ArgumentException("Начало события не может быть позже его окончания");
+            throw new ArgumentException("Дата и время окончания события должны быть строго позже начала события");
 
         Title = title;
         StartAt = startAt;

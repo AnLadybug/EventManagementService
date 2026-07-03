@@ -32,14 +32,14 @@ public class EventDto : IValidatableObject
     /// </summary>
     /// <example>2026-08-15T09:00:00Z</example>
     [Required(ErrorMessage = "Дата и время начала события обязательны для заполнения")]
-    public DateTime StartAt { get; set; }
+    public DateTime? StartAt { get; set; }
 
     /// <summary>
     /// Запланированная дата и время окончания события (UTC).
     /// </summary>
     /// <example>2026-08-15T12:00:00Z</example>
     [Required(ErrorMessage = "Дата и время окончания события обязательны для заполнения")]
-    public DateTime EndAt { get; set; }
+    public DateTime? EndAt { get; set; }
 
     /// <summary>
     /// Проверить временные рамки при создании события
