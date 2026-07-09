@@ -5,7 +5,7 @@ namespace Ru.AnLadybug.EventManagement.ModelDto;
 /// <summary>
 /// Информация о существующем событии (используется для ответов API).
 /// </summary>
-public class EventDto : IValidatableObject
+public class EventDto
 {
     /// <summary>
     /// Уникальный идентификатор события.
@@ -40,20 +40,4 @@ public class EventDto : IValidatableObject
     /// <example>2026-08-15T12:00:00Z</example>
     [Required(ErrorMessage = "Дата и время окончания события обязательны для заполнения")]
     public DateTime? EndAt { get; set; }
-
-    /// <summary>
-    /// Проверить временные рамки при создании события
-    /// </summary>
-    /// <param name="validationContext">Контекст выполнения валидации.</param>
-    /// <returns>Результат проверки корректности дат.</returns>
-    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-    {
-        if (EndAt <= StartAt)
-        {
-            yield return new ValidationResult(
-                "Дата и время окончания события должны быть строго позже начала события",
-                [nameof(StartAt), nameof(EndAt)]
-            );
-        }
-    }
 }

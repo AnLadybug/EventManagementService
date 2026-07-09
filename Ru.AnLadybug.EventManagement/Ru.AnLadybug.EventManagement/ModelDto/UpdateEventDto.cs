@@ -41,7 +41,7 @@ public class UpdateEventDto : IValidatableObject
     /// <returns>Результат проверки корректности дат.</returns>
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
-        if (EndAt <= StartAt)
+        if (StartAt.HasValue && EndAt.HasValue && EndAt <= StartAt)
         {
             yield return new ValidationResult(
                 "Дата и время окончания события должны быть строго позже начала события",
