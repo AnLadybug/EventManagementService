@@ -1,4 +1,4 @@
-﻿namespace Ru.AnLadybug.EventManagement.Model.Update;
+﻿namespace Ru.AnLadybug.EventManagement.Models.Update;
 
 public record UpdateEvent
 {

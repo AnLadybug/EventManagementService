@@ -1,4 +1,4 @@
-﻿namespace Ru.AnLadybug.EventManagement.Model.Create;
+﻿namespace Ru.AnLadybug.EventManagement.Models.Create;
 
 public record CreateEvent
 {

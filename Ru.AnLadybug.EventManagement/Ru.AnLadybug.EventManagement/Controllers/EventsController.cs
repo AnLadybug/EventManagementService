@@ -2,6 +2,7 @@
 using Ru.AnLadybug.EventManagement.Controllers.Convertors;
 using Ru.AnLadybug.EventManagement.Interfaces;
 using Ru.AnLadybug.EventManagement.ModelDto;
+using Ru.AnLadybug.EventManagement.ModeslDto;
 
 namespace Ru.AnLadybug.EventManagement.Controllers
 {

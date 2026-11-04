@@ -1,6 +1,6 @@
-﻿using Ru.AnLadybug.EventManagement.Model;
-using Ru.AnLadybug.EventManagement.Model.Create;
-using Ru.AnLadybug.EventManagement.Model.Update;
+﻿using Ru.AnLadybug.EventManagement.Models;
+using Ru.AnLadybug.EventManagement.Models.Create;
+using Ru.AnLadybug.EventManagement.Models.Update;
 
 namespace Ru.AnLadybug.EventManagement.Interfaces;
 

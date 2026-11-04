@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Ru.AnLadybug.EventManagement.ModelDto;
+namespace Ru.AnLadybug.EventManagement.ModeslDto;
 
 /// <summary>
 /// Данные для обновления параметров существующего события.

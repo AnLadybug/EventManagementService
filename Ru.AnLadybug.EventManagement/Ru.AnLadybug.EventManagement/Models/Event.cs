@@ -1,4 +1,4 @@
-﻿namespace Ru.AnLadybug.EventManagement.Model;
+﻿namespace Ru.AnLadybug.EventManagement.Models;
 
 public class Event
 {
