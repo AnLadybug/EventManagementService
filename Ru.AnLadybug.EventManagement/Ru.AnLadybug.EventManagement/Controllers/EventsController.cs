@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ru.AnLadybug.EventManagement.Controllers.Convertors;
 using Ru.AnLadybug.EventManagement.Interfaces;
-using Ru.AnLadybug.EventManagement.ModelDto;
 using Ru.AnLadybug.EventManagement.ModeslDto;
 
 namespace Ru.AnLadybug.EventManagement.Controllers
@@ -23,6 +22,7 @@ namespace Ru.AnLadybug.EventManagement.Controllers
         [ProducesResponseType(typeof(IReadOnlyCollection<EventDto>), StatusCodes.Status200OK)]
         public ActionResult<IReadOnlyCollection<EventDto>> GetAll()
         {
+            //throw new InvalidOperationException("Тестовая критическая ошибка для проверки Middleware!");
             return _eventService.GetAll().Select(EventConvertor.ToDto).ToList();
         }
 

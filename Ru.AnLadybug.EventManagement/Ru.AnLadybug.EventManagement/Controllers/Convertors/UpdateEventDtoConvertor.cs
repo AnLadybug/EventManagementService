@@ -1,4 +1,4 @@
-﻿using Ru.AnLadybug.EventManagement.ModelDto;
+﻿using Ru.AnLadybug.EventManagement.ModeslDto;
 using Ru.AnLadybug.EventManagement.Models.Update;
 
 namespace Ru.AnLadybug.EventManagement.Controllers.Convertors;
