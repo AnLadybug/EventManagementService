@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace Ru.AnLadybug.EventManagement.Middlewares;
@@ -60,6 +61,7 @@ public class GlobalExceptionHandlingMiddleware(
         {
             ValidationException => StatusCodes.Status400BadRequest,
             BadHttpRequestException => StatusCodes.Status400BadRequest,
+            KeyNotFoundException => StatusCodes.Status404NotFound,
             _ => StatusCodes.Status500InternalServerError
         };
 
@@ -68,12 +70,13 @@ public class GlobalExceptionHandlingMiddleware(
         {
             ValidationException => "Ошибка валидации данных",
             BadHttpRequestException => "Некорректный формат запроса",
-            _ => "Внутренняя ошибка сервера"
+            KeyNotFoundException => "Ресурс не найден",
+            _ => "Непредвиденная ошибка сервера"
         };
 
     private static string GetDetailForStatus(IWebHostEnvironment webHostEnv, int statusCode, string message) => 
         !webHostEnv.IsDevelopment() && statusCode == StatusCodes.Status500InternalServerError 
-            ? "Внутренняя ошибка сервера. Пожалуйста, попробуйте повторить запрос позже." 
+            ? "Непредвиденная ошибка сервера. Пожалуйста, попробуйте повторить запрос позже."
             : message;
     
 }
