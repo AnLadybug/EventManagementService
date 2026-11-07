@@ -3,25 +3,23 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Ru.AnLadybug.EventManagement.Middlewares;
 
-public class GlobalExceptionHandlingMiddleware(RequestDelegate next, ILogger<GlobalExceptionHandlingMiddleware> logger)
+public class GlobalExceptionHandlingMiddleware(
+    RequestDelegate next, 
+    ILogger<GlobalExceptionHandlingMiddleware> logger,
+    IWebHostEnvironment webHostEnv)
 {
     private readonly RequestDelegate _next = next;
-    private readonly ILogger _logger = logger;
-
-    //  Создайте middleware для глобальной обработки исключений:
-    //  middleware перехватывает все необработанные исключения;
-    //  возвращается единообразный JSON - ответ с информацией об ошибке;
-    //  формат ответа содержит: код статуса, сообщение об ошибке;
-    //  рекомендуем использовать Problem Details(RFC 7807) или собственный формат.
+    private readonly ILogger<GlobalExceptionHandlingMiddleware> _logger = logger;
+    private readonly IWebHostEnvironment _webHostEnv = webHostEnv;
 
     public async Task InvokeAsync(HttpContext httpContext)
     {
-		try
-		{
+        try
+        {
             await _next(httpContext);
         }
-		catch (Exception ex)
-		{
+        catch (Exception ex)
+        {
             _logger.LogError(
                     ex,
                     "Необработанное исключение: Method={Method}, Path={Path}",
@@ -32,14 +30,14 @@ public class GlobalExceptionHandlingMiddleware(RequestDelegate next, ILogger<Glo
             if (httpContext.Response.HasStarted)
             {
                 _logger.LogWarning("Ответ уже начал отправляться клиенту. Невозможно изменить заголовки для Problem Details.");
-                return; 
+                return;
             }
 
-            await WriteResponse(httpContext, ex);
-        }        
+            await WriteResponse(httpContext, ex, _webHostEnv);
+        }
     }
 
-    private static async Task WriteResponse(HttpContext httpContext, Exception ex)
+    private static async Task WriteResponse(HttpContext httpContext, Exception ex, IWebHostEnvironment webHostEnv)
     {
         var statusCode = GetStatusCode(ex);
         httpContext.Response.StatusCode = statusCode;
@@ -50,11 +48,11 @@ public class GlobalExceptionHandlingMiddleware(RequestDelegate next, ILogger<Glo
             Type = "about:blank",
             Title = GetTitleForStatus(ex),
             Status = statusCode,
-            Detail = ex.Message,
+            Detail = GetDetailForStatus(webHostEnv, statusCode, ex.Message),
             Instance = httpContext.Request.Path
         };
 
-        await httpContext.Response.WriteAsJsonAsync(problemDetails);
+        await httpContext.Response.WriteAsJsonAsync(problemDetails, httpContext.RequestAborted);
     }
 
     private static int GetStatusCode(Exception ex) =>
@@ -72,4 +70,10 @@ public class GlobalExceptionHandlingMiddleware(RequestDelegate next, ILogger<Glo
             BadHttpRequestException => "Некорректный формат запроса",
             _ => "Внутренняя ошибка сервера"
         };
+
+    private static string GetDetailForStatus(IWebHostEnvironment webHostEnv, int statusCode, string message) => 
+        !webHostEnv.IsDevelopment() && statusCode == StatusCodes.Status500InternalServerError 
+            ? "Внутренняя ошибка сервера. Пожалуйста, попробуйте повторить запрос позже." 
+            : message;
+    
 }
