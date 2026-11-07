@@ -27,7 +27,7 @@ public class GlobalExceptionHandlingMiddleware(RequestDelegate next, ILogger<Glo
                     "Необработанное исключение: Method={Method}, Path={Path}",
                     httpContext.Request.Method,
                     httpContext.Request.Path
-                );
+            );
 
             if (httpContext.Response.HasStarted)
             {
@@ -35,26 +35,41 @@ public class GlobalExceptionHandlingMiddleware(RequestDelegate next, ILogger<Glo
                 return; 
             }
 
-            var statusCode = MapStatusCode(ex);
-            httpContext.Response.StatusCode = statusCode;
-            httpContext.Response.ContentType = "application/json";
-
-            var error = new ProblemDetails
-            {
-                //Type = "about:blank",
-                Status = statusCode,
-                Detail = ex.Message,
-                //Instance = httpContext.Request.Path
-            };
-
-            await httpContext.Response.WriteAsJsonAsync(error);
+            await WriteResponse(httpContext, ex);
         }        
     }
 
-    private static int MapStatusCode(Exception ex) =>
+    private static async Task WriteResponse(HttpContext httpContext, Exception ex)
+    {
+        var statusCode = GetStatusCode(ex);
+        httpContext.Response.StatusCode = statusCode;
+        httpContext.Response.ContentType = "application/problem+json";
+
+        var problemDetails = new ProblemDetails
+        {
+            Type = "about:blank",
+            Title = GetTitleForStatus(ex),
+            Status = statusCode,
+            Detail = ex.Message,
+            Instance = httpContext.Request.Path
+        };
+
+        await httpContext.Response.WriteAsJsonAsync(problemDetails);
+    }
+
+    private static int GetStatusCode(Exception ex) =>
         ex switch
         {
-            ValidationException ve => StatusCodes.Status400BadRequest,
+            ValidationException => StatusCodes.Status400BadRequest,
+            BadHttpRequestException => StatusCodes.Status400BadRequest,
             _ => StatusCodes.Status500InternalServerError
+        };
+
+    private static string GetTitleForStatus(Exception ex) =>
+        ex switch
+        {
+            ValidationException => "Ошибка валидации данных",
+            BadHttpRequestException => "Некорректный формат запроса",
+            _ => "Внутренняя ошибка сервера"
         };
 }
