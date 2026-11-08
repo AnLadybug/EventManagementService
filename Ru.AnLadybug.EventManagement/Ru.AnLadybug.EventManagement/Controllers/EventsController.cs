@@ -20,10 +20,13 @@ namespace Ru.AnLadybug.EventManagement.Controllers
         /// <response code="200">Список событий успешно получен.</response>
         [HttpGet]
         [ProducesResponseType(typeof(IReadOnlyCollection<EventDto>), StatusCodes.Status200OK)]
-        public ActionResult<IReadOnlyCollection<EventDto>> GetAll()
+        public ActionResult<IReadOnlyCollection<EventDto>> GetAll(
+            [FromQuery] string? title,
+            [FromQuery] DateTime? from, 
+            [FromQuery] DateTime? to )
         {
-            //throw new InvalidOperationException("Тестовая критическая ошибка для проверки Middleware!");
-            return _eventService.GetAll().Select(EventConvertor.ToDto).ToList();
+            var events = _eventService.GetAll(title, from, to);
+            return events.Select(EventConvertor.ToDto).ToList();
         }
 
         /// <summary>

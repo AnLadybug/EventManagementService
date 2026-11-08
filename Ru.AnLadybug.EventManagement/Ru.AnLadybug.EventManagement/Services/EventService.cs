@@ -10,9 +10,14 @@ public class EventService : IEventService
 {
     private List<Event> _events = [];
 
-    public IReadOnlyCollection<Event> GetAll()
+    public IReadOnlyCollection<Event> GetAll(string? title, DateTime? from, DateTime? to)
     {
-        return _events;
+        IEnumerable<Event> query = _events;
+        if (!string.IsNullOrEmpty(title)) query = query.Where(e => e.Title.Contains(title, StringComparison.CurrentCultureIgnoreCase));
+        if (from.HasValue) query = query.Where(e => e.StartAt >= from);
+        if (to.HasValue) query = query.Where(e => e.EndAt <= to);
+
+        return query.ToList();
     }
 
     public Event? Get(Guid id)
