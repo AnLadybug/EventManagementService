@@ -1,8 +1,8 @@
 ﻿using Ru.AnLadybug.EventManagement.Interfaces;
 using Ru.AnLadybug.EventManagement.Models;
 using Ru.AnLadybug.EventManagement.Models.Create;
+using Ru.AnLadybug.EventManagement.Models.Search;
 using Ru.AnLadybug.EventManagement.Models.Update;
-
 
 namespace Ru.AnLadybug.EventManagement.Services;
 
@@ -10,14 +10,35 @@ public class EventService : IEventService
 {
     private List<Event> _events = [];
 
-    public IReadOnlyCollection<Event> GetAll(string? title, DateTime? from, DateTime? to)
+    public PaginatedResult<Event> GetAll(EventSearchParams filter)
     {
-        IEnumerable<Event> query = _events;
-        if (!string.IsNullOrEmpty(title)) query = query.Where(e => e.Title.Contains(title, StringComparison.CurrentCultureIgnoreCase));
-        if (from.HasValue) query = query.Where(e => e.StartAt >= from);
-        if (to.HasValue) query = query.Where(e => e.EndAt <= to);
+        IEnumerable<Event> query = Query(_events, filter);
+        var totalCount = Query(_events, filter).Count();
+  
+        query = query
+                .Skip((filter.Page - 1) * filter.PageSize)
+                .Take(filter.PageSize);
 
-        return query.ToList();
+        var result = new PaginatedResult<Event>
+        {
+            TotalCount = totalCount,
+            Items = [.. query],
+            PageNumber = filter.Page,
+            PageSize = filter.PageSize
+        };
+        return result;
+    }
+
+    private IEnumerable<Event> Query(IEnumerable<Event> query, EventSearchParams filter)
+    {
+        if (!string.IsNullOrEmpty(filter.Title))
+            query = query.Where(e => e.Title.Contains(filter.Title, StringComparison.CurrentCultureIgnoreCase));
+        if (filter.From.HasValue)
+            query = query.Where(e => e.StartAt >= filter.From);
+        if (filter.To.HasValue)
+            query = query.Where(e => e.EndAt <= filter.To);
+
+        return query;
     }
 
     public Event? Get(Guid id)

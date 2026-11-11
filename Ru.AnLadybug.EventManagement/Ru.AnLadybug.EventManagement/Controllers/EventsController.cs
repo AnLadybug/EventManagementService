@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Ru.AnLadybug.EventManagement.Controllers.Convertors;
 using Ru.AnLadybug.EventManagement.Interfaces;
+using Ru.AnLadybug.EventManagement.Models.Search;
 using Ru.AnLadybug.EventManagement.ModeslDto;
 
 namespace Ru.AnLadybug.EventManagement.Controllers
@@ -14,19 +15,27 @@ namespace Ru.AnLadybug.EventManagement.Controllers
     public class EventsController(IEventService _eventService) : ControllerBase
     {
         /// <summary>
-        /// Получить список всех событий.
+        /// Получить постраничный список событий с возможностью фильтрации.
         /// </summary>
-        /// <returns>Коллекция DTO всех существующих событий.</returns>
+        /// <param name="title">Название события (поиск по частичному совпадению).</param>
+        /// <param name="from">Начальная дата диапазона для фильтрации событий (включительно).</param>
+        /// <param name="to">Конечная дата диапазона для фильтрации событий (включительно).</param>
+        /// <param name="page">Номер запрашиваемой страницы (начиная с 1).</param>
+        /// <param name="pageSize">Количество элементов на одной странице.</param>
+        /// <returns>Объект пагинации, содержащий список DTO событий и метаданные о страницах.</returns>
         /// <response code="200">Список событий успешно получен.</response>
         [HttpGet]
-        [ProducesResponseType(typeof(IReadOnlyCollection<EventDto>), StatusCodes.Status200OK)]
-        public ActionResult<IReadOnlyCollection<EventDto>> GetAll(
+        [ProducesResponseType(typeof(PaginatedResultDto<EventDto>), StatusCodes.Status200OK)]
+        public ActionResult<PaginatedResultDto<EventDto>> GetAll(
             [FromQuery] string? title,
             [FromQuery] DateTime? from, 
-            [FromQuery] DateTime? to )
+            [FromQuery] DateTime? to,
+            [FromQuery] int? page,
+            [FromQuery] int? pageSize)
         {
-            var events = _eventService.GetAll(title, from, to);
-            return events.Select(EventConvertor.ToDto).ToList();
+            var searchParam = EventSearchParams.CreatePage(title, from, to, page, pageSize);
+            var pageEvents = _eventService.GetAll(searchParam);
+            return PaginatedResultConvertor.ToDto(pageEvents);
         }
 
         /// <summary>
