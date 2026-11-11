@@ -2,8 +2,6 @@
 
 public class PaginatedResultDto<TDto>
 {
-    //[Required(ErrorMessage = "Общее количество событий обязательно для заполнения")]
-
     /// <summary>
     /// Общее количество событий
     /// </summary>
