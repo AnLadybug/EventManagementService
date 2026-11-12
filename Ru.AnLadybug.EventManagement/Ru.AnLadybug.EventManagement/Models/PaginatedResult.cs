@@ -1,9 +1,9 @@
 ﻿namespace Ru.AnLadybug.EventManagement.Models;
 
-public class PaginatedResult<T>
+public record PaginatedResult<T>
 {
-    public int TotalCount { get; set; }
-    public IReadOnlyCollection<T> Items { get; set; } = [];
-    public int PageNumber { get; set; }
-    public int PageSize { get; set; }
+    public required int TotalCount { get; init; }
+    public IReadOnlyCollection<T> Items { get; init; } = [];
+    public required int PageNumber { get; init; }
+    public required int PageSize { get; init; }
 }
