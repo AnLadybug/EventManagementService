@@ -18,7 +18,7 @@ public class CreateEventDto : IValidatableObject
     /// Детальное описание сути и целей события (необязательное).
     /// </summary>
     /// <example>Планирование целей и ключевых результатов на текущий квартал.</example>
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Запланированная дата и время начала события (UTC).

@@ -29,7 +29,7 @@ public class EventService : IEventService
         return result;
     }
 
-    private IEnumerable<Event> Query(IEnumerable<Event> query, EventSearchParams filter)
+    private static IEnumerable<Event> Query(IEnumerable<Event> query, EventSearchParams filter)
     {
         if (!string.IsNullOrEmpty(filter.Title))
             query = query.Where(e => e.Title.Contains(filter.Title, StringComparison.CurrentCultureIgnoreCase));

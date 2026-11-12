@@ -9,8 +9,8 @@ public static class CreateEventDtoConvertor
     {
         return new CreateEvent
         {
-            Title = input.Title,
-            Description = input.Description,
+            Title = input.Title.Trim(),
+            Description = input.Description?.Trim() ?? string.Empty,
             StartAt = input.StartAt!.Value,
             EndAt = input.EndAt!.Value,
         };

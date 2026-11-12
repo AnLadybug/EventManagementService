@@ -10,7 +10,7 @@ public static class UpdateEventDtoConvertor
         return new UpdateEvent
         {
             Title = input.Title,
-            Description = input.Description,
+            Description = input.Description?.Trim() ?? string.Empty,
             StartAt = input.StartAt!.Value,
             EndAt = input.EndAt!.Value,
         };

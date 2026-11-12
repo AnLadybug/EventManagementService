@@ -2,8 +2,8 @@
 
 public record UpdateEvent
 {
-    public string Title { get; set; }
-    public string Description { get; set; }
-    public DateTime StartAt { get; set; }
-    public DateTime EndAt { get; set; }
+    public required string Title { get; init; }
+    public string Description { get; init; }
+    public required DateTime StartAt { get; init; }
+    public required DateTime EndAt { get; init; }
 }

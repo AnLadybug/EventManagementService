@@ -10,7 +10,7 @@ public static class PaginatedResultConvertor
         return new PaginatedResultDto<EventDto>
         {
             TotalCount = input.TotalCount,
-            Items = (IReadOnlyCollection<EventDto>)input.Items.Select(EventConvertor.ToDto),
+            Items = [.. input.Items.Select(EventConvertor.ToDto)],
             PageNumber = input.PageNumber,
             PageSize = input.PageSize
         };

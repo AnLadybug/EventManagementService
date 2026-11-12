@@ -18,7 +18,7 @@ public class UpdateEventDto : IValidatableObject
     /// Новое описание события (необязательное).
     /// </summary>
     /// <example>Корректировка планов на основе итогов полугодия.</example>
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// Новая дата и время начала события (UTC).
