@@ -15,11 +15,7 @@ namespace Ru.AnLadybug.EventManagement.Tests
         {
             _service = new EventService();
         }
-        //   Неуспешные сценарии:
-        //          попытка получить событие с несуществующим ID;
-        //        попытка обновить событие с несуществующим ID;
-        //        создание события с некорректными данными(если валидация в сервисе);
-        //        обновление события с некорректными датами(EndAt раньше StartAt).
+
         #region Успешные сценарии: CRUD
 
         [Fact]
@@ -230,6 +226,63 @@ namespace Ru.AnLadybug.EventManagement.Tests
             Assert.Equal(expected.Id, result.Items.First().Id);
             Assert.Same(result.Items.First(), expected);
         }
+        #endregion
+
+        #region Неуспешные сценарии
+
+        [Fact]
+        public void Get_NonExistentId_ReturnsNull()
+        {
+            // Act
+            var result = _service.Get(Guid.NewGuid());
+
+            // Assert
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void Update_NonExistentId_ReturnsNull()
+        {
+            // Arrange
+            var updateDto = new UpdateEvent
+            {
+                Title = "Новое имя",
+                StartAt = DateTime.UtcNow,
+                EndAt = DateTime.UtcNow.AddHours(1)
+            };
+
+            // Act
+            var result = _service.Update(Guid.NewGuid(), updateDto);
+
+            // Assert
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void Delete_NonExistentId_ReturnsFalse()
+        {
+            // Act
+            var result = _service.Delete(Guid.NewGuid());
+
+            // Assert
+            Assert.False(result);
+        }
+
+        [Fact]
+        public void Create_EndAtBeforeStartAt_ThrowsArgumentException()
+        {
+            // Arrange
+            var createEvent = new CreateEvent
+            {
+                Title = "Некорректное событие",
+                StartAt = new DateTime(2026, 12, 10, 15, 0, 0),
+                EndAt = new DateTime(2026, 12, 10, 10, 0, 0) // Раньше StartAt
+            };
+
+            // Act & Assert
+            Assert.Throws<ArgumentException>(() => _service.Create(createEvent));
+        }
+
         #endregion
 
         private Event CreateSampleEvent(
