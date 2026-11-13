@@ -1,4 +1,4 @@
-﻿namespace Ru.AnLadybug.EventManagement.Model;
+﻿namespace Ru.AnLadybug.EventManagement.Models;
 
 public class Event
 {
@@ -8,7 +8,7 @@ public class Event
     public DateTime StartAt { get; private set; }
     public DateTime EndAt { get; private set; }
 
-    public Event(string title, DateTime startAt, DateTime endAt, string description = "")
+    public Event(string title, DateTime startAt, DateTime endAt, string? description = null)
     {
         if (string.IsNullOrWhiteSpace(title))
             throw new ArgumentException("Название события обязательно", nameof(title));
@@ -19,10 +19,10 @@ public class Event
         Title = title;
         StartAt = startAt;
         EndAt = endAt;
-        Description = description;
+        Description = description ?? string.Empty;
     }
 
-    public void Update(string title, DateTime startAt, DateTime endAt, string description = "")
+    public void Update(string title, DateTime startAt, DateTime endAt, string? description = null)
     {
         if (string.IsNullOrWhiteSpace(title))
             throw new ArgumentException("Название события обязательно", nameof(title));
@@ -32,7 +32,7 @@ public class Event
         Title = title;
         StartAt = startAt;
         EndAt = endAt;
-        Description = description;
+        Description = description ?? string.Empty;
     }
 
  

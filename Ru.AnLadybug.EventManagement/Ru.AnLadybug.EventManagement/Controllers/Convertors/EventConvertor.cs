@@ -1,5 +1,5 @@
-﻿using Ru.AnLadybug.EventManagement.Model;
-using Ru.AnLadybug.EventManagement.ModelDto;
+﻿using Ru.AnLadybug.EventManagement.Models;
+using Ru.AnLadybug.EventManagement.ModeslDto;
 
 namespace Ru.AnLadybug.EventManagement.Controllers.Convertors;
 

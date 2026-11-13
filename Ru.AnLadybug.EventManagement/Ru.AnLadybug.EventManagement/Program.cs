@@ -1,3 +1,4 @@
+using Ru.AnLadybug.EventManagement.Extensions;
 using Ru.AnLadybug.EventManagement.Interfaces;
 using Ru.AnLadybug.EventManagement.Services;
 using System.Reflection;
@@ -16,6 +17,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 var app = builder.Build();
+app.UseGlobalExceptionHandling();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -24,7 +26,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapControllers();
 

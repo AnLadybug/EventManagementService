@@ -1,36 +1,36 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Ru.AnLadybug.EventManagement.ModelDto;
+namespace Ru.AnLadybug.EventManagement.ModeslDto;
 
 /// <summary>
-/// Данные для создания нового события.
+/// Данные для обновления параметров существующего события.
 /// </summary>
-public class CreateEventDto : IValidatableObject
+public class UpdateEventDto : IValidatableObject
 {
     /// <summary>
-    /// Название нового события.
+    /// Новое название события.
     /// </summary>
-    /// <example>Стратегическая сессия</example>
+    /// <example>Обновленная стратегическая сессия</example>
     [Required(ErrorMessage = "Название события обязательно для заполнения")]
     public string Title { get; set; }
 
     /// <summary>
-    /// Детальное описание сути и целей события (необязательное).
+    /// Новое описание события (необязательное).
     /// </summary>
-    /// <example>Планирование целей и ключевых результатов на текущий квартал.</example>
-    public string Description { get; set; }
+    /// <example>Корректировка планов на основе итогов полугодия.</example>
+    public string? Description { get; set; }
 
     /// <summary>
-    /// Запланированная дата и время начала события (UTC).
+    /// Новая дата и время начала события (UTC).
     /// </summary>
-    /// <example>2026-08-15T09:00:00Z</example>
+    /// <example>2026-08-25T09:00:00Z</example>
     [Required(ErrorMessage = "Дата и время начала события обязательны для заполнения")]
     public DateTime? StartAt { get; set; }
 
     /// <summary>
-    /// Запланированная дата и время окончания события (UTC).
+    /// Новая дата и время окончания события (UTC).
     /// </summary>
-    /// <example>2026-08-15T12:00:00Z</example>
+    /// <example>2026-08-25T12:00:00Z</example>
     [Required(ErrorMessage = "Дата и время окончания события обязательны для заполнения")]
     public DateTime? EndAt { get; set; }
 
@@ -45,7 +45,7 @@ public class CreateEventDto : IValidatableObject
         {
             yield return new ValidationResult(
                 "Дата и время окончания события должны быть строго позже начала события",
-                [nameof(StartAt), nameof(EndAt)]                
+                [nameof(StartAt), nameof(EndAt)]
             );
         }
     }

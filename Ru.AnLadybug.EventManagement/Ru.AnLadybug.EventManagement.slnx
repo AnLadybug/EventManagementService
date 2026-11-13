@@ -2,5 +2,6 @@
   <Folder Name="/Элементы решения/">
     <File Path="../README.md" />
   </Folder>
+  <Project Path="EventService.Tests/Ru.AnLadybug.EventManagement.Tests.csproj" Id="355a5fea-c0b4-4bb0-abe7-de7e42ca4b85" />
   <Project Path="Ru.AnLadybug.EventManagement/Ru.AnLadybug.EventManagement.csproj" />
 </Solution>

@@ -1,5 +1,5 @@
-﻿using Ru.AnLadybug.EventManagement.Model.Update;
-using Ru.AnLadybug.EventManagement.ModelDto;
+﻿using Ru.AnLadybug.EventManagement.ModeslDto;
+using Ru.AnLadybug.EventManagement.Models.Update;
 
 namespace Ru.AnLadybug.EventManagement.Controllers.Convertors;
 
@@ -10,7 +10,7 @@ public static class UpdateEventDtoConvertor
         return new UpdateEvent
         {
             Title = input.Title,
-            Description = input.Description,
+            Description = input.Description?.Trim() ?? string.Empty,
             StartAt = input.StartAt!.Value,
             EndAt = input.EndAt!.Value,
         };
