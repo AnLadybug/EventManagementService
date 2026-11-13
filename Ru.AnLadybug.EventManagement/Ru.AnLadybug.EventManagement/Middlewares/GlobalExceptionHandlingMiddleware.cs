@@ -75,7 +75,7 @@ public class GlobalExceptionHandlingMiddleware(
 
     private static string GetDetailForStatus(IWebHostEnvironment webHostEnv, int statusCode, string message) => 
         !webHostEnv.IsDevelopment() && statusCode == StatusCodes.Status500InternalServerError 
-            ? "Непредвиденная ошибка сервера. Пожалуйста, попробуйте повторить запрос позже."
+            ? "Непредвиденная ошибка сервера. Попробуйте повторить запрос позже."
             : message;
     
 }
